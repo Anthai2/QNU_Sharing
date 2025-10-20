@@ -4,6 +4,7 @@
   --brand-100: #ffe4e9;
   --brand-500: #ec4899; /* pink-500 */
   --brand-600: #db2777;
+  --brand-500-rgb: 236, 72, 153; /* for alpha backgrounds */
 }
 
 /* Offset anchors for sticky header */
@@ -13,7 +14,11 @@ section { scroll-margin-top: 5rem; }
 :focus-visible { outline: 2px solid var(--brand-500); outline-offset: 2px; }
 
 /* Active nav link styling (complements Tailwind classes) */
+.nav-link { position: relative; z-index: 0; padding: 0.625rem 0.9rem; border-radius: 9999px; transition: color .12s ease; display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
+.nav-link:hover { color: var(--brand-600); }
 .nav-link.active { color: var(--brand-600); font-weight: 600; }
+.nav-link::after { content: ""; position: absolute; inset: 0; border-radius: 9999px; background-color: rgba(var(--brand-500-rgb), .4); opacity: 0; transform: scale(.9); transition: opacity .12s ease, transform .12s ease; z-index: -1; }
+.nav-link:hover::after, .nav-link.active::after { opacity: 1; transform: scale(1); }
 
 /* Subtle hero gradient */
 .hero-gradient {
@@ -24,3 +29,14 @@ section { scroll-margin-top: 5rem; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .fade-up { animation: fadeUp .5s ease both; }
 
+/* Header subtle shadow on scroll */
+header { transition: box-shadow .12s ease, background-color .12s ease; }
+header.scrolled { box-shadow: 0 12px 30px rgba(0,0,0,.14); }
+
+/* Card hover effect (for features/plans) */
+.card-hover { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(var(--brand-500-rgb), .12); border-color: var(--brand-100); }
+
+/* Apply hover to cards even without the helper class */
+#features .rounded-3xl, #plans .rounded-3xl { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+#features .rounded-3xl:hover, #plans .rounded-3xl:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(var(--brand-500-rgb), .12); border-color: var(--brand-100); }

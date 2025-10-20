@@ -57,19 +57,37 @@
     .filter(Boolean);
 
   function updateActiveLink() {
-    const y = window.scrollY + headerHeight() + 8;
-    let current = null;
+    const offset = headerHeight() + 8;
+    let best = null;
+    let bestTop = -Infinity;
     sections.forEach((s) => {
-      if (s.offsetTop <= y) current = s;
+      const top = s.getBoundingClientRect().top - offset;
+      if (top <= 0 && top > bestTop) {
+        bestTop = top;
+        best = s;
+      }
     });
+    if (!best && sections.length) best = sections[0];
     navLinks.forEach((l) => l.classList.remove('active'));
-    if (current) {
-      const active = navLinks.find((l) => l.getAttribute('href') === `#${current.id}`);
-      active && active.classList.add('active');
+    if (best) {
+      const href = `#${best.id}`;
+      navLinks.forEach((l) => {
+        if (l.getAttribute('href') === href) l.classList.add('active');
+      });
     }
   }
-  updateActiveLink();
-  window.addEventListener('scroll', () => requestAnimationFrame(updateActiveLink));
-  window.addEventListener('resize', () => requestAnimationFrame(updateActiveLink));
-})();
+  function updateHeaderShadow() {
+    if (!header) return;
+    if (window.scrollY > 2) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  }
 
+  function onScrollResize() {
+    updateActiveLink();
+    updateHeaderShadow();
+  }
+
+  onScrollResize();
+  window.addEventListener('scroll', () => requestAnimationFrame(onScrollResize));
+  window.addEventListener('resize', () => requestAnimationFrame(onScrollResize));
+})();
