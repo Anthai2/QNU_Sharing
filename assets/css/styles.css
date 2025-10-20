@@ -1,0 +1,26 @@
+/* QNUniShare custom styles (keeps Tailwind CDN) */
+:root {
+  --brand-50: #fff1f5;
+  --brand-100: #ffe4e9;
+  --brand-500: #ec4899; /* pink-500 */
+  --brand-600: #db2777;
+}
+
+/* Offset anchors for sticky header */
+section { scroll-margin-top: 5rem; }
+
+/* Focus visibility for keyboard users */
+:focus-visible { outline: 2px solid var(--brand-500); outline-offset: 2px; }
+
+/* Active nav link styling (complements Tailwind classes) */
+.nav-link.active { color: var(--brand-600); font-weight: 600; }
+
+/* Subtle hero gradient */
+.hero-gradient {
+  background: radial-gradient(1200px 400px at 50% -50%, var(--brand-50), transparent);
+}
+
+/* Simple fade-up animation */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.fade-up { animation: fadeUp .5s ease both; }
+
